@@ -1,0 +1,84 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.auth-container {
+  width: 300px;
+  margin: 100px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.auth-container input,
+.auth-container button {
+  padding: 12px;
+}
+
+.auth-container p {
+  cursor: pointer;
+  color: blue;
+}
+
+.app {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 230px;
+  background: #202123;
+  color: white;
+  padding: 20px;
+}
+
+.sidebar button {
+  padding: 10px;
+  width: 100%;
+}
+
+.chat-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #f7f7f8;
+}
+
+.messages {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.message {
+  max-width: 700px;
+  margin-bottom: 15px;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.message.user {
+  background: #d1e7ff;
+  margin-left: auto;
+}
+
+.message.assistant {
+  background: white;
+  margin-right: auto;
+}
+
+.input-area {
+  display: flex;
+  padding: 15px;
+  background: white;
+}
+
+.input-area input {
+  flex: 1;
+  padding: 12px;
+}
+
+.input-area button {
+  padding: 12px 20px;
+}
