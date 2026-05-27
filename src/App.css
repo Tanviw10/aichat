@@ -1,39 +1,24 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #f7f7f8;
 }
 
 .auth-container {
-  width: 320px;
+  width: 300px;
   margin: 100px auto;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  background: white;
-  padding: 25px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .auth-container input,
 .auth-container button {
   padding: 12px;
-  font-size: 15px;
 }
 
-.auth-container button {
+.auth-container p {
   cursor: pointer;
-}
-
-.auth-container .error {
-  color: #b00020;
-}
-
-.toggle-auth {
   color: blue;
-  cursor: pointer;
-  text-align: center;
 }
 
 .app {
@@ -42,28 +27,22 @@ body {
 }
 
 .sidebar {
-  width: 250px;
+  width: 230px;
   background: #202123;
   color: white;
   padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
 }
 
 .sidebar button {
   padding: 10px;
-  cursor: pointer;
-}
-
-.username {
-  word-break: break-word;
+  width: 100%;
 }
 
 .chat-area {
   flex: 1;
   display: flex;
   flex-direction: column;
+  background: #f7f7f8;
 }
 
 .messages {
@@ -76,7 +55,7 @@ body {
   max-width: 700px;
   margin-bottom: 15px;
   padding: 12px;
-  border-radius: 10px;
+  border-radius: 8px;
 }
 
 .message.user {
@@ -93,17 +72,13 @@ body {
   display: flex;
   padding: 15px;
   background: white;
-  border-top: 1px solid #ddd;
 }
 
 .input-area input {
   flex: 1;
   padding: 12px;
-  font-size: 15px;
 }
 
 .input-area button {
   padding: 12px 20px;
-  margin-left: 10px;
-  cursor: pointer;
 }
