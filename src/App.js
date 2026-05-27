@@ -115,9 +115,9 @@ function App() {
     ]);
 
     try {
-      const res = await api.post("/api/chat", {
-        message: userText,
-      });
+      const res = await api.post("/api/chat/response", {
+  message: userText,
+});
 
       setMessages((prev) => [
         ...prev,
