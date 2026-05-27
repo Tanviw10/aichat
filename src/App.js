@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import api from "./api";
 import "./App.css";
 
@@ -12,17 +12,23 @@ function App() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
 
-  useEffect(() => {
-    checkUser();
+  const loadHistory = useCallback(async () => {
+    const res = await api.get("/api/chat/history");
+    setMessages(res.data);
   }, []);
 
-  const checkUser = async () => {
+  const checkUser = useCallback(async () => {
     const res = await api.get("/api/auth/me");
+
     if (res.data) {
       setUser(res.data);
-      loadHistory();
+      await loadHistory();
     }
-  };
+  }, [loadHistory]);
+
+  useEffect(() => {
+    checkUser();
+  }, [checkUser]);
 
   const register = async () => {
     await api.post("/api/auth/register", { username, password });
@@ -46,11 +52,6 @@ function App() {
     await api.post("/api/auth/logout");
     setUser(null);
     setMessages([]);
-  };
-
-  const loadHistory = async () => {
-    const res = await api.get("/api/chat/history");
-    setMessages(res.data);
   };
 
   const sendMessage = async () => {
