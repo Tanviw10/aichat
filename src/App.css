@@ -21,6 +21,11 @@ body {
   color: blue;
 }
 
+.auth-container .error {
+  color: #b00020;
+  cursor: default;
+}
+
 .app {
   display: flex;
   height: 100vh;
