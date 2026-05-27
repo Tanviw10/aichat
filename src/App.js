@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import api from "./api";
+import api, { API_BASE_URL } from "./api";
 import "./App.css";
 
 function App() {
@@ -11,18 +11,23 @@ function App() {
 
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
+  const [error, setError] = useState("");
 
   const loadHistory = useCallback(async () => {
-    const res = await api.get("/api/chat/history");
+    const res = await api.get(`${API_BASE_URL}/api/chat/history`);
     setMessages(res.data);
   }, []);
 
   const checkUser = useCallback(async () => {
-    const res = await api.get("/api/auth/me");
+    try {
+      const res = await api.get(`${API_BASE_URL}/api/auth/me`);
 
-    if (res.data) {
-      setUser(res.data);
-      await loadHistory();
+      if (res.data) {
+        setUser(res.data);
+        await loadHistory();
+      }
+    } catch {
+      setUser(null);
     }
   }, [loadHistory]);
 
@@ -31,25 +36,42 @@ function App() {
   }, [checkUser]);
 
   const register = async () => {
-    await api.post("/api/auth/register", { username, password });
-    alert("Registered. Now login.");
-    setIsRegister(false);
+    setError("");
+
+    try {
+      await api.post(`${API_BASE_URL}/api/auth/register`, { username, password });
+      alert("Registered. Now login.");
+      setIsRegister(false);
+    } catch (err) {
+      setError(err.response?.data?.message || "Registration failed.");
+    }
   };
 
   const login = async () => {
+    setError("");
+
     const formData = new URLSearchParams();
     formData.append("username", username);
     formData.append("password", password);
 
-    await api.post("/api/auth/login", formData, {
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    });
+    try {
+      await api.post(`${API_BASE_URL}/api/auth/login`, formData, {
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        withCredentials: true,
+      });
 
-    await checkUser();
+      await checkUser();
+    } catch (err) {
+      setError(
+        err.response?.status === 401
+          ? "Invalid username or password."
+          : "Login failed. Check the backend URL and CORS settings."
+      );
+    }
   };
 
   const logout = async () => {
-    await api.post("/api/auth/logout");
+    await api.post(`${API_BASE_URL}/api/auth/logout`);
     setUser(null);
     setMessages([]);
   };
@@ -65,7 +87,7 @@ function App() {
       { role: "user", content: userText },
     ]);
 
-    const res = await api.post("/api/chat", {
+    const res = await api.post(`${API_BASE_URL}/api/chat`, {
       message: userText,
     });
 
@@ -96,6 +118,8 @@ function App() {
         <button onClick={isRegister ? register : login}>
           {isRegister ? "Register" : "Login"}
         </button>
+
+        {error && <p className="error">{error}</p>}
 
         <p onClick={() => setIsRegister(!isRegister)}>
           {isRegister
